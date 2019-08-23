@@ -1,37 +1,23 @@
-## Welcome to GitHub Pages
+## TheDevCom_ProjectChatroom
 
-You can use the [editor on GitHub](https://github.com/EightBitGod/TheDevCom_ProjectChatroom/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+Simple chat room application. 
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### features
+1.text/emojies
+2.No of Users
+3.last Activity
+4.timestamp of message
 
-### Markdown
+### Tech Stack
+1.Django
+2.Redis
+3.React and react native
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### Reference Prototype
+https://www.figma.com/file/ZUMxdkK72IZ8yQfP2RHiQP/Untitled?node-id=0%3A1
 
-```markdown
-Syntax highlighted code block
+### Slack 
+https://git-push-origin.slack.com/ 
 
-# Header 1
-## Header 2
-### Header 3
 
-- Bulleted
-- List
 
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/EightBitGod/TheDevCom_ProjectChatroom/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
