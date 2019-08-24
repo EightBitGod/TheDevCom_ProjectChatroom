@@ -1,0 +1,27 @@
+.preloader {
+  display: inline-flex;
+  width: 70px;
+  height: 18px;
+  &__bounce {
+    width: 18px;
+    height: 18px;
+    margin: auto;
+    background-color: #0a78b3;
+    border-radius: 100%;
+    animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+    &--1 {
+      animation-delay: -0.32s;
+    }
+    &--2 {
+      animation-delay: -0.16s;
+    }
+  }
+}
+@keyframes sk-bouncedelay {
+  0%, 80%, 100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
