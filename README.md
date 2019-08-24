@@ -2,15 +2,15 @@
 A simple community built chat-room application.
 
 ## Features
-1.Emoji support
-2.No of Users
-3.last Activity
-4.timestamp of message
+1.Emoji support  
+2.No of Users  
+3.last Activity  
+4.timestamp of message  
 
 ## Tech Stack
-- *Frontend:* ReactJs (React Native for smartphone app)
-- *Backend:* Django
-- *Database:* Redis
+- **Frontend:** ReactJs (React Native for smartphone app)
+- **Backend:** Django
+- **Database:** Redis
 
 
 ## Reference Prototypes and Tutorials
