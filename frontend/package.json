@@ -23,8 +23,8 @@
     "store": "^2.0.12"
   },
   "scripts": {
-    "start": "webpack-dev-server --open --mode development --watch",
-    "build:prod": "webpack --mode production",
+    "start": "react-scripts start",
+    "build:prod": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
