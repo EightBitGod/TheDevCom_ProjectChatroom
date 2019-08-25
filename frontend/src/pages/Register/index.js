@@ -48,7 +48,7 @@ class Register extends React.Component<Props, State> {
     const { userList, username } = this.state;
 
     if(username.length !==0){
-      // Check if Username exist or not
+      //TODO: Check if Username exist or not through API
       this.setState({
         userList: [...userList, username],
       });
