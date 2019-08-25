@@ -1,9 +1,10 @@
 import React from "react";
 import {Box, Typography, withStyles} from "@material-ui/core";
-
+import ReactDOM from 'react-dom';
 import ButtonBase from "../../components/Button";
 import TextInput from "../../components/Input";
-
+import ChatUI from '../../pages/ChatRoom/index';
+import {userList} from '../../conf/data';
 const styles = {
   display: {
     minHeight: "100vh"
@@ -33,7 +34,7 @@ class Register extends React.Component<Props, State> {
     super(props);
     this.state = {
       username: "",
-      userList: [],
+      userList: userList,
       error: false,
     };
   }
@@ -50,9 +51,14 @@ class Register extends React.Component<Props, State> {
     if(username.length !==0){
       //TODO: Check if Username exist or not through API
       this.setState({
-        userList: [...userList, username],
+        userList: [...userList,{id: userList.length+1,username:username}],
+      },function () {
+          //TODO: Replace below code with router/redux
+          console.log(this.state);
+          ReactDOM.render(<ChatUI userList={this.state.userList}/>, document.getElementById('root'));
       });
     }
+    
 
   };
 

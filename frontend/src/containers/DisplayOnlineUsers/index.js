@@ -16,15 +16,16 @@ const useStyles = makeStyles({
   activity: {
     backgroundColor: "#16B626",
     borderRadius: "50%",
-    width: "2vw",
-    height: "2vw"
+    width: "20px",
+    height: "20px"
   }
 });
 
 export default function SwipeableTemporaryDrawer(userList) {
   const classes = useStyles();
   const [state, setState] = React.useState({
-    left: false
+    left: false,
+    userList:userList
   });
 
   const toggleDrawer = (side, open) => event => {
@@ -56,7 +57,7 @@ export default function SwipeableTemporaryDrawer(userList) {
       </List>
       <Divider />
       <List>
-        {users.UserList.map((user, index) => (
+        {users.userList.map((user, index) => (
           <ListItem button key={index}>
             <ListItemIcon>
               <div className={classes.activity} />
@@ -80,7 +81,7 @@ export default function SwipeableTemporaryDrawer(userList) {
         onClose={toggleDrawer("left", false)}
         onOpen={toggleDrawer("left", true)}
       >
-        {sideList("left", userList)}
+        {sideList("left", state.userList)}
       </SwipeableDrawer>
     </div>
   );
