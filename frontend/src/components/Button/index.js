@@ -20,9 +20,9 @@ const ButtonBase = (props:propTypes) => {
   const { label, onButtonClick } =props;
   return (
       <Button variant="contained" color="primary" className={classes.button} onClick={() => onButtonClick()}>
-  {label}
-</Button>
-);
+        {label}
+      </Button>
+  );
 };
 
 export default ButtonBase;

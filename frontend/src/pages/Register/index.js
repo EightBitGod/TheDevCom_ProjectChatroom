@@ -62,24 +62,24 @@ class Register extends React.Component<Props, State> {
 
     return(
         <Box
-    display="flex"
-    flexDirection="column"
-    alignItems="center"
-    justifyContent="center"
-    className={classes.display}
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          justifyContent="center"
+          className={classes.display}
         >
-        <Typography variant="h2" gutterBottom={true}>Register</Typography>
-        <TextInput label="Username" handleChange={v => {this.handleChange(v)}}/>
-    <br/>
-    { error===true ?
-  <Typography variant="caption" gutterBottom={true} color="error">This username is already being used. Try another one.</Typography>
-  :
-  <Typography variant="caption" gutterBottom={true} color="textSecondary">Hey. Please enter your alias name to enter the chat room.</Typography>
-  }
-  <br/>
-    <ButtonBase onButtonClick={() => this.onJoin()} label="Join"/>
+          <Typography variant="h2" gutterBottom={true}>Register</Typography>
+          <TextInput label="Username" handleChange={v => {this.handleChange(v)}}/>
+          <br/>
+          { error===true ?
+            <Typography variant="caption" gutterBottom={true} color="error">This username is already being used. Try another one.</Typography>
+            :
+            <Typography variant="caption" gutterBottom={true} color="textSecondary">Hey. Please enter your alias name to enter the chat room.</Typography>
+          }
+          <br/>
+          <ButtonBase onButtonClick={() => this.onJoin()} label="Join"/>
         </Box>
-  );
+    );
   }
 }
 export default withStyles(styles)(Register);
