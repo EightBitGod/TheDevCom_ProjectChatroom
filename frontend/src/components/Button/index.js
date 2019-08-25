@@ -1,7 +1,5 @@
 import * as React from "react";
-import { Button } from "@material-ui/core";
-
-import { makeStyles } from "@material-ui/core/styles";
+import { Button, makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -12,17 +10,19 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-class Button extends React.Component {
-  render() {
-    const classes = useStyles();
-    return (
-      <div>
-        <Button variant="outlined" color="inherit" className={classes.button}>
-          Test Button
-        </Button>
-      </div>
-    );
-  }
-}
+type propTypes ={
+  label: string,
+  onButtonClick: func,
+};
 
-export default Button;
+const ButtonBase = (props:propTypes) => {
+  const classes = useStyles();
+  const { label, onButtonClick } =props;
+  return (
+      <Button variant="contained" color="primary" className={classes.button} onClick={() => onButtonClick()}>
+  {label}
+</Button>
+);
+};
+
+export default ButtonBase;
