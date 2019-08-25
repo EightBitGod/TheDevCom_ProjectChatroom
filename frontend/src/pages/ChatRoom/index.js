@@ -1,7 +1,7 @@
 import * as React from "react";
 import {} from "@material-ui/core";
 import {} from "@material-ui/icons";
-//import * as DisplayOnlineUsers from "./containers/DisplayOnlineUsers/index";
+import * as DisplayOnlineUsers from "./containers/DisplayOnlineUsers/index";
 
 type Props = {};
 type State = {};
@@ -20,7 +20,7 @@ class ChatUI extends React.Component<Props, State> {
   render() {
     const {} = this.state;
     return <div>
-    			//<DisplayOnlineUsers UserList={userList} />
+    			<DisplayOnlineUsers UserList={userList} />
     	   </div>;
   }
 }
