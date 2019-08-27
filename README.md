@@ -12,6 +12,13 @@ A simple community built chat-room application.
 - **Backend:** Django
 - **Database:** Redis
 
+## Steps to run backend server (Tested in Ubuntu 18.04, Python 3)
+<ol>
+<li> Install redis-server and start the server with command: <b>sudo service redis-server start</b>
+<li> In the backend directory, open terminal and run: <b>pip install -r requirements.txt</b>
+<li> To start the server, run : <b>python manage.py runserver</b> (It will start the server on localhost i.e 127.0.0.1:8000)
+<li> Enter 127.0.0.1:8000/chat in the browser
+</ol>
 
 ## Reference Prototypes and Tutorials
 - https://www.figma.com/file/ZUMxdkK72IZ8yQfP2RHiQP/Untitled?node-id=0%3A1
