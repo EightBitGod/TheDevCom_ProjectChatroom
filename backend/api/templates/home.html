@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <title>Chat Rooms</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 </head>
 <body>
     Enter your alias : <br/>
@@ -12,15 +13,25 @@
 
     <script>
         function check_available(user){
-            var url = "{% url 'checkalias' 'alias' %}".replace('alias', user);
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                window.location.pathname = '/chat/default/'+user;
-            } else document.getElementById("error").innerHTML="Alias already exists !";
-            };
-            xhttp.open("GET",url, true);
-            xhttp.send();
+            var URL = "{% url 'checkalias' %}";
+            data = {'alias': user};
+            data = JSON.stringify(data);
+            console.log(data);
+            $.ajax({
+            type: 'POST',
+            url: URL,
+            data: data,
+            dataType: 'json',
+            success: function(response){
+                console.log(response);
+                if(response['success']==false) 
+                    document.getElementById("error").innerHTML="Alias already exists !";
+                else window.location.href = 'http://'+window.location.host+'/chat/default/'+response['encrypted_alias'];
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                 alert(textStatus + " " + errorThrown);
+            }
+            });
         }
         document.querySelector('#alias-input').focus();
         document.querySelector('#alias-input').onkeyup = function(e) {
