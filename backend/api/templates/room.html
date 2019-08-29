@@ -10,12 +10,25 @@
     <input id="chat-message-submit" type="button" value="Send"/>
 </body>
 <script>
+    // This is Django's templating language. It will convert to encrypted_alias after rendering.
+    // This should be replaced by stored encrypted_alias to add this user to active list.
     var user = {{ alias }};
 
+    // Create a new websocket connection
     var chatSocket = new WebSocket(
         'ws://' + window.location.host +
         '/ws/chat/default/$');
+    
+    // On opening connection for first time
+    chatSocket.onopen = function(e){
+        // To add the current user to active users list (Server side processing).
+        chatSocket.send(JSON.stringify({
+            'message': '--check--',
+            'alias' : user
+        }));
+    };
 
+    // On receiving a message
     chatSocket.onmessage = function(e) {
         var data = JSON.parse(e.data);
         var message = data['message'];
@@ -23,8 +36,10 @@
         document.querySelector('#chat-log').value += (alias + ':' + message + '\n');
     };
 
+    // On closing the connection
     chatSocket.onclose = function(e) {
         console.error('Chat socket closed unexpectedly');
+        window.location.replace('http://'+window.location.host + '/chat');
     };
 
     document.querySelector('#chat-message-input').focus();
@@ -37,11 +52,12 @@
     document.querySelector('#chat-message-submit').onclick = function(e) {
         var messageInputDom = document.querySelector('#chat-message-input');
         var message = messageInputDom.value;
+
+        // Sending the message
         chatSocket.send(JSON.stringify({
             'message': message,
             'alias' : user
         }));
-        console.log(e);
         messageInputDom.value = '';
     };
 </script>
