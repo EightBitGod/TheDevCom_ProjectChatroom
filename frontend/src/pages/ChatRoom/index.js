@@ -113,26 +113,25 @@ class ChatUI extends React.Component<Props, State> {
             </Box>
             <Box>
               <TextField
-                  id="outlined-textarea"
-                  label="Enter Message here"
-                  multiline
-                  margin="normal"
-                  variant="outlined"
-                  fullWidth
-                  value={message}
-                  autoFocus={true}
-                  onChange={this.onChange}
-                  InputProps={{
-                    endAdornment: (
-                        <InputAdornment position="end">
-                          <SendIcon
-                              edge="end"
-                              aria-label="toggle password visibility"
-                              onClick={(event) => this.addMessage(event)}
-                          />
-                        </InputAdornment>
-                    )
-                  }}
+                id="outlined-textarea"
+                label="Enter Message here"
+                multiline
+                margin="normal"
+                variant="outlined"
+                fullWidth
+                value={message}
+                autoFocus={true}
+                onChange={this.onChange}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <SendIcon
+                          edge="end"
+                          aria-label="toggle password visibility"
+                          onClick={(event) => this.addMessage(event)}
+                      />
+                    </InputAdornment>
+                )}}
               />
             </Box>
           </Grid>

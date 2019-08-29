@@ -54,7 +54,7 @@ class Register extends React.Component<Props, State> {
         userList: [...userList,{id: userList.length+1,username:username}],
       },function () {
           //TODO: Replace below code with router/redux
-          ReactDOM.render(<ChatUI username={this.state.username} userList={this.state.userList}/>, document.getElementById('root'));
+        ReactDOM.render(<ChatUI username={this.state.username} userList={this.state.userList}/>, document.getElementById('root'));
       });
     }
     
