@@ -3,6 +3,7 @@ import {Grid, Box, Typography, TextField, InputAdornment, withStyles} from "@mat
 import SendIcon from "@material-ui/icons/Send";
 
 import DisplayOnlineUsers from "../../containers/DisplayOnlineUsers/index";
+import Messages from "./message";
 
 const styles = {
   root: {
@@ -12,22 +13,6 @@ const styles = {
   messageBox: {
     flexDirection: 'column',
     padding: '0 10px',
-  },
-  messageUserText:{
-    paddingLeft: "20%",
-  },
-  messageFriendText:{
-    paddingRight: "20%",
-  },
-  height: {
-    overflowY: 'scroll',
-    minHeight: "75vh",
-    maxHeight: "75vh",
-    margin: "1rem 0",
-    paddingRight: "1rem"
-  },
-  multiline: {
-    wordBreak: 'break-word',
   },
 };
 type Props = {
@@ -93,24 +78,7 @@ class ChatUI extends React.Component<Props, State> {
             <Typography variant="h4" align="center">Chat Room</Typography>
           </Box>
           <Grid container component="div" className={classes.messageBox}>
-            <Box className={classes.height} id="messageList" component="div">
-              {typeof messages !== 'undefined' && messages.map(obj => (
-                  obj.username!==username ?
-                      <div className={classes.messageFriendText} key={obj.message}>
-                        <Typography variant="caption" gutterBottom={true} color="textSecondary">{obj.username}</Typography>
-                        <br/>
-                        <Box border={1} mb={2} p={1} display="inline-block" borderRadius="5px">
-                          <Typography className={classes.multiline}>{obj.message}</Typography>
-                        </Box>
-                      </div>:
-                      <Box className={classes.messageUserText} display="flex" flexDirection="column" alignItems="flex-end" key={obj.message}>
-                        <Typography variant="caption" gutterBottom={true} color="textSecondary">{obj.username}</Typography>
-                        <Box border={1} mb={2} p={1} display="inline-block" borderRadius="5px" bgcolor="#00b6ff" borderColor="#00b6ff">
-                          <Typography className={classes.multiline}>{obj.message}</Typography>
-                        </Box>
-                      </Box>
-              ))}
-            </Box>
+            <Messages messageList={messages} username={username}/>
             <Box>
               <TextField
                 id="outlined-textarea"
