@@ -1,6 +1,10 @@
 import React from "react";
 import {Box, Typography, withStyles} from "@material-ui/core";
 import ReactDOM from 'react-dom';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import fetchUsername, {getSuccess, getUsernameError, getUsernamePending} from '../../containers/CheckUsername/saga';
 import ButtonBase from "../../components/Button";
 import TextInput from "../../components/Input";
 import ChatUI from '../../pages/ChatRoom/index';
@@ -50,6 +54,8 @@ class Register extends React.Component<Props, State> {
 
     if(username.length !==0){
       //TODO: Check if Username exist or not through API
+      const res=fetchUsername();
+
       this.setState({
         userList: [...userList,{id: userList.length+1,username:username}],
       },function () {
@@ -87,4 +93,17 @@ class Register extends React.Component<Props, State> {
     );
   }
 }
-export default withStyles(styles)(Register);
+const mapStateToProps = state => ({
+  error: getUsernameError(state),
+  success: getSuccess(state),
+  pending: getUsernamePending(state)
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+  fetchUsername: fetchUsername,
+}, dispatch);
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(withStyles(styles)(Register));
