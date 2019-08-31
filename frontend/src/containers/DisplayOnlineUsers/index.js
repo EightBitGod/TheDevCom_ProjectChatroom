@@ -18,6 +18,9 @@ const useStyles = makeStyles({
     borderRadius: "50%",
     width: "20px",
     height: "20px"
+  },
+  button: {
+    position: 'fixed',
   }
 });
 
@@ -72,7 +75,7 @@ export default function SwipeableTemporaryDrawer(userList) {
   return (
     <div>
       <div>
-        <Button onClick={toggleDrawer("left", true)}>
+        <Button onClick={toggleDrawer("left", true)} className={classes.button}>
           <People />
         </Button>
       </div>
