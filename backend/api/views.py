@@ -54,6 +54,15 @@ def check_alias(request):
     return HttpResponse(status=400)
 
 
+def active_users(request):
+    if request.method == 'GET':
+        active_list = list(alias_set)
+        data = dict()
+        data['active'] = active_list
+        return JsonResponse(data)
+    return HttpResponse(status=403)
+
+
 def encrypt(text):
     text = text.join(random.SystemRandom().choice(alpha) for _ in range(10))
     hash_obj = hashlib.sha256(text.encode())
