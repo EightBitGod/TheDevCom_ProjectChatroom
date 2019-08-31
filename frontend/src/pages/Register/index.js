@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import fetchUsername, {getSuccess, getUsernameError, getUsernamePending} from '../../containers/CheckUsername/saga';
+import fetchUsername, {getSuccess, getUsernamePending} from '../../containers/CheckUsername/saga';
 import ButtonBase from "../../components/Button";
 import TextInput from "../../components/Input";
 import ChatUI from '../../pages/ChatRoom/index';
@@ -54,14 +54,23 @@ class Register extends React.Component<Props, State> {
 
     if(username.length !==0){
       //TODO: Check if Username exist or not through API
-      const res=fetchUsername();
-
-      this.setState({
-        userList: [...userList,{id: userList.length+1,username:username}],
-      },function () {
-          //TODO: Replace below code with router/redux
-        ReactDOM.render(<ChatUI username={this.state.username} userList={this.state.userList}/>, document.getElementById('root'));
-      });
+      const { actions } = this.props;
+      actions.fetchUsername(username);
+      const { success, pending } = this.props;
+      if(typeof pending !== "undefined" && !pending){
+        if(typeof success !== "undefined" && success){
+          this.setState({
+            userList: [...userList,{id: userList.length+1,username:username}],
+          },function () {
+            //TODO: Replace below code with router/redux
+            ReactDOM.render(<ChatUI username={this.state.username} userList={this.state.userList}/>, document.getElementById('root'));
+          });
+        }else{
+          this.setState({
+            error: true,
+          })
+        }
+      }
     }
     
 
@@ -94,16 +103,13 @@ class Register extends React.Component<Props, State> {
   }
 }
 const mapStateToProps = state => ({
-  error: getUsernameError(state),
   success: getSuccess(state),
   pending: getUsernamePending(state)
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  fetchUsername: fetchUsername,
-}, dispatch);
-
 export default connect(
     mapStateToProps,
-    mapDispatchToProps
+    dispatch => ({
+      actions: bindActionCreators({ fetchUsername }, dispatch),
+    }),
 )(withStyles(styles)(Register));

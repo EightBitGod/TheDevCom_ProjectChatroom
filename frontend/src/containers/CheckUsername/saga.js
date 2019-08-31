@@ -7,7 +7,6 @@ const ACTIONS = {
 
 //ACTIONS
 const CheckUsernamePending = () => {
-
   return{
     type: ACTIONS.POST,
   }
@@ -42,6 +41,7 @@ export function usernameReducer(state=initialState,action) {
         pending: true,
       };
     case ACTIONS.POST_SUCCESS:
+      console.log('ACTIONS.POST_SUCCESS');
       return {
         ...state,
         pending: false,
@@ -65,11 +65,11 @@ export const getUsernameError = state => state.error;
 
 //SAGA
 export default function fetchUsername(username) {
-
   return dispatch => {
-    dispatch(CheckUsernamePending());
-    fetch('http://127.0.0.1:8000/chat/check',{
-      body: {"alias": username}
+    dispatch(CheckUsernamePending);
+    fetch('http://127.0.0.1:8000/chat/check', {
+      method: 'POST',
+      body: JSON.stringify({alias: username})
     })
     .then(res => res.json())
     .then(res => {
