@@ -15,14 +15,14 @@ const CheckUsernamePending = () => {
 const CheckUsernameSuccess = (success) => {
   return{
     type: ACTIONS.POST_SUCCESS,
-    success: success,
+    success,
   }
 };
 
 const CheckUsernameFailure = (error) => {
   return{
     type: ACTIONS.POST_FAILURE,
-    error: error,
+    error,
   }
 };
 
@@ -41,7 +41,6 @@ export function usernameReducer(state=initialState,action) {
         pending: true,
       };
     case ACTIONS.POST_SUCCESS:
-      console.log('ACTIONS.POST_SUCCESS');
       return {
         ...state,
         pending: false,
@@ -59,24 +58,22 @@ export function usernameReducer(state=initialState,action) {
 }
 
 //SELECTORS
-export const getSuccess = state => state.success;
-export const getUsernamePending = state => state.pending;
-export const getUsernameError = state => state.error;
+export const getSuccess = state => state.usernameReducer.success;
+export const getUsernamePending = state => state.usernameReducer.pending;
+export const getUsernameError = state => state.usernameReducer.error;
 
 //SAGA
 export default function fetchUsername(username) {
   return dispatch => {
-    dispatch(CheckUsernamePending);
-    fetch('http://127.0.0.1:8000/chat/check', {
+    dispatch(CheckUsernamePending());
+    return fetch('http://127.0.0.1:8000/chat/check', {
       method: 'POST',
       body: JSON.stringify({alias: username})
     })
     .then(res => res.json())
-    .then(res => {
-      dispatch(CheckUsernameSuccess(res.success));
-      return res;
-    }).catch(error => {
+    .then(res => dispatch(CheckUsernameSuccess(res.success)))
+    .catch(error => {
       dispatch(CheckUsernameFailure(error));
     })
-  }
+  };
 }

@@ -39,7 +39,7 @@ class Register extends React.Component<Props, State> {
     this.state = {
       username: "",
       userList: userList,
-      error: false,
+      isClicked: false,
     };
   }
 
@@ -50,35 +50,37 @@ class Register extends React.Component<Props, State> {
   };
 
   onJoin= () => {
-    const { userList, username } = this.state;
+    const { username } = this.state;
 
     if(username.length !==0){
       //TODO: Check if Username exist or not through API
       const { actions } = this.props;
       actions.fetchUsername(username);
-      const { success, pending } = this.props;
-      if(typeof pending !== "undefined" && !pending){
-        if(typeof success !== "undefined" && success){
-          this.setState({
-            userList: [...userList,{id: userList.length+1,username:username}],
-          },function () {
-            //TODO: Replace below code with router/redux
-            ReactDOM.render(<ChatUI username={this.state.username} userList={this.state.userList}/>, document.getElementById('root'));
-          });
-        }else{
-          this.setState({
-            error: true,
-          })
-        }
-      }
+      this.setState({
+        isClicked: true,
+      })
     }
-    
-
   };
 
+  componentDidUpdate(prevProps: Props,prevState: State,snapshot) {
+    const { success, pending } = this.props;
+    const { userList, username } = this.state;
+
+    if(typeof pending !== "undefined" && !pending){
+      if(typeof success !== "undefined" && success){
+        this.setState({
+          userList: [...userList,{id: userList.length+1,username:username}],
+        },function () {
+          //TODO: Replace below code with router/redux
+          ReactDOM.render(<ChatUI username={this.state.username} userList={this.state.userList}/>, document.getElementById('root'));
+        });
+      }
+    }
+  }
+
   render() {
-    const { classes } = this.props;
-    const { error } = this.state;
+    const { classes, success, pending } = this.props;
+    const { isClicked } = this.state;
 
     return(
         <Box
@@ -91,7 +93,7 @@ class Register extends React.Component<Props, State> {
           <Typography variant="h2" gutterBottom={true}>Register</Typography>
           <TextInput label="Username" handleChange={v => {this.handleChange(v)}}/>
           <br/>
-          { error===true ?
+          { isClicked && !pending && !success ?
             <Typography variant="caption" gutterBottom={true} color="error">This username is already being used. Try another one.</Typography>
             :
             <Typography variant="caption" gutterBottom={true} color="textSecondary">Hey. Please enter your alias name to enter the chat room.</Typography>
