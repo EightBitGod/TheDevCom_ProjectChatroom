@@ -25,10 +25,11 @@ type State = {
   message: string,
 };
 
+var chatSocket;
 // TODO: Make ChatUI Page and Send Message back and forth with API
 // 1. Make action to call API and dispatch it
 // 2. Use static data for now
-// 3. ChatUI Should have Online users list 
+// 3. ChatUI Should have Online users list
 // 4. Chatshould have send button that would call action from react redux and call API to send message
 class ChatUI extends React.Component<Props, State> {
   constructor(props: Object) {
@@ -37,22 +38,48 @@ class ChatUI extends React.Component<Props, State> {
       messages: [],
       message: "",
     };
+    chatSocket = new WebSocket('ws://127.0.0.1:8000/ws/chat/default/$');
+  }
+
+  componentDidMount(): void {
+    const { encryptedAlias } = this.props;
+
+    chatSocket.onopen = function(e){
+      chatSocket.send(JSON.stringify({
+        'message': '--check--',
+        'alias' : encryptedAlias,
+      }));
+    };
+
+    chatSocket.onmessage = function(e) {
+      const data = JSON.parse(e.data);
+      updateMessageList(data);
+    };
+
+    const updateMessageList = (data) => {
+      this.setState({
+        messages: [
+          ...this.state.messages,
+          {
+            username: data['alias'],
+            message: data['message'],
+          },
+        ],
+      })
+    };
   }
 
   addMessage = (e) => {
     e.preventDefault();
-    const { messages, message } = this.state;
-    const { username } = this.props;
+    const { message } = this.state;
+    const { encryptedAlias } = this.props;
 
+    chatSocket.send(JSON.stringify({
+      'message': message,
+      'alias' : encryptedAlias,
+    }));
     this.setState({
       message: "",
-      messages: [
-        ...messages,
-        {
-          username,
-          message,
-        },
-      ],
     });
   };
 

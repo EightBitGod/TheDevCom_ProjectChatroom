@@ -12,10 +12,11 @@ const CheckUsernamePending = () => {
   }
 };
 
-const CheckUsernameSuccess = (success) => {
+const CheckUsernameSuccess = (success,encryptedAlias) => {
   return{
     type: ACTIONS.POST_SUCCESS,
     success,
+    encryptedAlias,
   }
 };
 
@@ -30,6 +31,7 @@ const CheckUsernameFailure = (error) => {
 const initialState = {
   pending: false,
   success: false,
+  encryptedAlias: '',
   error: null,
 };
 
@@ -45,6 +47,7 @@ export function usernameReducer(state=initialState,action) {
         ...state,
         pending: false,
         success: action.success,
+        encryptedAlias: action.encryptedAlias,
       };
     case ACTIONS.POST_FAILURE:
       return {
@@ -60,6 +63,7 @@ export function usernameReducer(state=initialState,action) {
 //SELECTORS
 export const getSuccess = state => state.usernameReducer.success;
 export const getUsernamePending = state => state.usernameReducer.pending;
+export const getEncryptedAlias = state => state.usernameReducer.encryptedAlias;
 export const getUsernameError = state => state.usernameReducer.error;
 
 //SAGA
@@ -71,7 +75,7 @@ export default function fetchUsername(username) {
       body: JSON.stringify({alias: username})
     })
     .then(res => res.json())
-    .then(res => dispatch(CheckUsernameSuccess(res.success)))
+    .then(res => dispatch(CheckUsernameSuccess(res.success,res.encrypted_alias)))
     .catch(error => {
       dispatch(CheckUsernameFailure(error));
     })

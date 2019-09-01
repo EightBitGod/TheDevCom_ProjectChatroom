@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import fetchUsername, {getSuccess, getUsernamePending} from '../../containers/CheckUsername/saga';
+import fetchUsername, {getSuccess, getUsernamePending, getEncryptedAlias} from '../../containers/CheckUsername/saga';
 import ButtonBase from "../../components/Button";
 import TextInput from "../../components/Input";
 import ChatUI from '../../pages/ChatRoom/index';
@@ -63,7 +63,7 @@ class Register extends React.Component<Props, State> {
   };
 
   componentDidUpdate(prevProps: Props,prevState: State,snapshot) {
-    const { success, pending } = this.props;
+    const { success, pending, encryptedAlias } = this.props;
     const { userList, username } = this.state;
 
     if(typeof pending !== "undefined" && !pending){
@@ -72,7 +72,7 @@ class Register extends React.Component<Props, State> {
           userList: [...userList,{id: userList.length+1,username:username}],
         },function () {
           //TODO: Replace below code with router/redux
-          ReactDOM.render(<ChatUI username={this.state.username} userList={this.state.userList}/>, document.getElementById('root'));
+          ReactDOM.render(<ChatUI encryptedAlias={encryptedAlias} username={this.state.username} userList={this.state.userList}/>, document.getElementById('root'));
         });
       }
     }
@@ -106,7 +106,8 @@ class Register extends React.Component<Props, State> {
 }
 const mapStateToProps = state => ({
   success: getSuccess(state),
-  pending: getUsernamePending(state)
+  pending: getUsernamePending(state),
+  encryptedAlias: getEncryptedAlias(state),
 });
 
 export default connect(
