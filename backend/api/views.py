@@ -22,13 +22,6 @@ def room(request, room_name, user):
         })
 
 
-def chat_room(request, room_name):
-    if encrypted_map.get(user,None) is None:
-        return HttpResponse(status=403)
-    return render(request, 'room.html', {
-        'alias': mark_safe(json.dumps(user))
-    })
-
 @csrf_exempt
 def check_alias(request):
     if request.method == 'POST':
@@ -38,7 +31,6 @@ def check_alias(request):
         # print(alias_set)
         if alias in alias_set:
             data['success'] = False
-            print('false')
             return JsonResponse(data)
         else:
             alias_set.add(alias)
