@@ -31,8 +31,24 @@
     // On receiving a message
     chatSocket.onmessage = function(e) {
         var data = JSON.parse(e.data);
+        // Get the list of all active users if connected for first time
+        if(data['type']=='--online--'){
+            console.log(data['type'] + ' : ' + data['active']);
+            return;
+        }
+        // Received if a user lefts
+        else if(data['type']=='--offline--'){
+            console.log(data['type'] + ' : ' + data['alias']);
+            return;
+        }
+        // Notify about this newly added user to all other users
+        else if(data['type']=='--new--'){
+            console.log(data['type'] + ' : ' + data['alias']);
+            return;
+        }
         var message = data['message'];
         var alias = data['alias'];
+        console.log(data['type']);
         document.querySelector('#chat-log').value += (alias + ':' + message + '\n');
     };
 
