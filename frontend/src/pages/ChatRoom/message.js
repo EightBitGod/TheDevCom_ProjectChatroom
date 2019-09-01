@@ -27,7 +27,7 @@ const styles = {
 
 const Messages = (props:propTypes) => {
   const { messageList, classes, username } = props;
-  console.log(messageList);
+
   return (
     <Box className={classes.height} id="messageList" component="div">
       {typeof messageList !== 'undefined' && messageList.map((obj,index) => (
