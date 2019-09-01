@@ -97,3 +97,4 @@ class ChatConsumer(AsyncWebsocketConsumer):
             'alias':alias,
             'type':'--new--',
         }))
+
