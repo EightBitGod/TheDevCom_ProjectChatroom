@@ -1,4 +1,4 @@
-aAPI Docs
+API Docs
 
 // Check if alias exists or not and then add alias
 Http requests
@@ -19,8 +19,18 @@ OR
 Store "encrypted_alias" as it will be needed to add this user to active users list (Server side processing)
 Using any other alias other than stored "encrypted_alias" will result in 403 error
 
-###################################################################
-WebSocket Connection 
+################################################################################################################
+// To get list of all active users
+
+GET : http://127.0.0.1:8000/chat/active
+Response Body : 
+{
+    "active": ["user1","user2"]
+}
+
+################################################################################################################
+
+// WebSocket Connection 
 'ws://127.0.0.1:8000/ws/chat/default/$'
 
 For more information see 'room.html' source for javascript code to start and operate chatroom 
