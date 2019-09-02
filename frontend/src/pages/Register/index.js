@@ -64,16 +64,11 @@ class Register extends React.Component<Props, State> {
 
   componentDidUpdate(prevProps: Props,prevState: State,snapshot) {
     const { success, pending, encryptedAlias } = this.props;
-    const { userList, username } = this.state;
+    const { username } = this.state;
 
     if(typeof pending !== "undefined" && !pending){
       if(typeof success !== "undefined" && success){
-        this.setState({
-          userList: [...userList,{id: userList.length+1,username:username}],
-        },function () {
-          //TODO: Replace below code with router/redux
-          ReactDOM.render(<ChatUI encryptedAlias={encryptedAlias} username={this.state.username} userList={this.state.userList}/>, document.getElementById('root'));
-        });
+        ReactDOM.render(<ChatUI encryptedAlias={encryptedAlias} username={username} />, document.getElementById('root'));
       }
     }
   }

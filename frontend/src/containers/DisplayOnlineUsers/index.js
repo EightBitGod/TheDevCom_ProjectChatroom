@@ -9,6 +9,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import People from "@material-ui/icons/People";
+
 const useStyles = makeStyles({
   list: {
     width: 250
@@ -24,12 +25,16 @@ const useStyles = makeStyles({
   }
 });
 
-export default function SwipeableTemporaryDrawer(userList) {
+type propTypes = {
+  userList: [],
+}
+
+export default function SwipeableTemporaryDrawer(props:propTypes) {
   const classes = useStyles();
   const [state, setState] = React.useState({
     left: false,
-    userList:userList
   });
+  const { userList } = props;
 
   const toggleDrawer = (side, open) => event => {
     if (
@@ -60,12 +65,12 @@ export default function SwipeableTemporaryDrawer(userList) {
       </List>
       <Divider />
       <List>
-        {users.userList.map((user, index) => (
+        {users.map((user, index) => (
           <ListItem button key={index}>
             <ListItemIcon>
               <div className={classes.activity} />
             </ListItemIcon>
-            <ListItemText primary={user.username} />
+            <ListItemText primary={user} />
           </ListItem>
         ))}
       </List>
@@ -84,7 +89,7 @@ export default function SwipeableTemporaryDrawer(userList) {
         onClose={toggleDrawer("left", false)}
         onOpen={toggleDrawer("left", true)}
       >
-        {sideList("left", state.userList)}
+        {props.userList.length!==0 && sideList("left", userList)}
       </SwipeableDrawer>
     </div>
   );

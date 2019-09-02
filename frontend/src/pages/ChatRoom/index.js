@@ -16,7 +16,6 @@ const styles = {
   },
 };
 type Props = {
-  userList: {},
   classes: {},
   username: string,
 };
@@ -37,6 +36,7 @@ class ChatUI extends React.Component<Props, State> {
     this.state = {
       messages: [],
       message: "",
+      activeUserList: [],
     };
     chatSocket = new WebSocket('ws://127.0.0.1:8000/ws/chat/default/$');
   }
@@ -57,15 +57,36 @@ class ChatUI extends React.Component<Props, State> {
     };
 
     const updateMessageList = (data) => {
-      this.setState({
-        messages: [
-          ...this.state.messages,
-          {
-            username: data['alias'],
-            message: data['message'],
-          },
-        ],
-      })
+      const type = data['type'];
+      const { messages, activeUserList } = this.state;
+      const { username } =this.props;
+
+      if(type==='--msg--'){
+        this.setState({
+          messages: [
+            ...messages,
+            {
+              username: data['alias'],
+              message: data['message'],
+            },
+          ],
+        });
+      }else if(type==='--new--' && data['alias'] !== username) {
+        this.setState({
+          activeUserList: [
+            ...activeUserList,
+            data['alias'],
+          ]
+        });
+      }else if (type==='--online--') {
+        this.setState({
+          activeUserList: data['active'],
+        });
+      }else if(type === '--offline--') {
+        this.setState({
+          activeUserList: activeUserList.filter((user) => user !== data['alias']),
+        })
+      }
     };
   }
 
@@ -95,13 +116,13 @@ class ChatUI extends React.Component<Props, State> {
   }
 
   render() {
-    const {userList, classes, username} = this.props;
-    const { messages, message } = this.state;
+    const {classes, username} = this.props;
+    const { messages, message, activeUserList } = this.state;
 
     return (
         <div className={classes.root}>
           <Box p={1} boxShadow={1}>
-            <DisplayOnlineUsers userList={userList}/>
+            <DisplayOnlineUsers userList={activeUserList}/>
             <Typography variant="h4" align="center">Chat Room</Typography>
           </Box>
           <Grid container component="div" className={classes.messageBox}>
@@ -117,6 +138,11 @@ class ChatUI extends React.Component<Props, State> {
                 value={message}
                 autoFocus={true}
                 onChange={this.onChange}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter') {
+                    this.addMessage(event)
+                  }
+                }}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
